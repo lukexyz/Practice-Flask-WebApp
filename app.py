@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABSE_URI'] = "sqlite:///database.db"
@@ -9,6 +9,13 @@ app.config['SQLALCHEMY_DATABSE_URI'] = "sqlite:///database.db"
 
 db = SQLAlchemy(app)
 
+
+class User(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    username = db.Column(db.String(), unique=True)
+    password = db.Column(db.String())
+    def __repr__(self):
+        return '<User {}>'.format(self.username)
 
 @app.route("/")
 def home():
